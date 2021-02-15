@@ -1,0 +1,157 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Where To Stay API",
+        "description": "Search and book for hotels nearby."
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Local development endpoint"
+        },
+        {
+            "url": "123qwe.heroku",
+            "description": "External endpoint"
+        }
+    ],
+    "basePath": "/",
+    "tags": [],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/bookings": {
+            "get": {
+                "tags": [],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Current page",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Max number of results per page",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [],
+                "description": "",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "hotelId": {
+                                        "type": "string",
+                                        "description": "Hotel ID from /hotels"
+                                    },
+                                    "guests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "document": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "checkin": {
+                                        "type": "string"
+                                    },
+                                    "checkout":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/hotels": {
+            "get": {
+                "tags": [],
+                "description": "Search nearby hotels given latitude, longitude and circle radius.",
+                "parameters": [
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "required": true,
+                        "description": "Latitude info",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lng",
+                        "in": "query",
+                        "required": true,
+                        "description": "Longitude info",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "r",
+                        "in": "query",
+                        "required": true,
+                        "description": "Search circle radius",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    }
+}

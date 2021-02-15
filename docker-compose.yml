@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+    app:
+        build: .
+        container_name: where-to-stay
+        ports:
+            - "3000:3000"
+        environment:
+            - REDIS_URL=${REDIS_URL}
+            - HERE_API_KEY=${HERE_API_KEY}
+        depends_on:
+            - db
+            - redis
+        links:
+            - db
+            - redis
+    redis:
+        image: redis
+        container_name: where-to-stay-redis
+        expose:
+            - 6379
+    db:
+        container_name: where-to-stay-mongo
+        image: 'mongo:4'
+        ports:
+            - '27017:27017'
+        volumes:
+            - ./data/db:/data/db
