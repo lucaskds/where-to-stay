@@ -16,19 +16,18 @@
         }
     ],
     "basePath": "/",
-    "tags": [],
     "schemes": [
         "http"
     ],
     "paths": {
         "/bookings": {
             "get": {
-                "tags": [],
                 "description": "",
                 "parameters": [
                     {
                         "name": "page",
                         "in": "query",
+                        "example": 1,
                         "description": "Current page",
                         "schema": {
                             "type": "integer"
@@ -37,6 +36,7 @@
                     {
                         "name": "size",
                         "in": "query",
+                        "example": 20,
                         "description": "Max number of results per page",
                         "schema": {
                             "type": "integer"
@@ -45,18 +45,103 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total": {
+                                            "type": "integer",
+                                            "description": "Total of bookings."
+                                        },
+                                        "page": {
+                                            "type": "integer",
+                                            "description": "Current page."
+                                        },
+                                        "size": {
+                                            "type": "integer",
+                                            "description": "Number of results per page."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "description": "Bookings data.",
+                                            "properties": {
+                                                "hotelId": {
+                                                    "type": "string",
+                                                    "description": "Hotel ID."
+                                                },
+                                                "guests": {
+                                                    "type": "array",
+                                                    "description": "Array of guests.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string",
+                                                                "description": "Guest's name."
+                                                            },
+                                                            "document": {
+                                                                "type": "string",
+                                                                "description": "Guest's document."
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "checkin": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Check-in date."
+                                                },
+                                                "checkout": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "description": "Check-out date."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error message.",
+                                            "example": "Invalid params: checkin, hotelId"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal Server Error"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error message.",
+                                            "example": "Error listing bookings: Error here."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
             "post": {
-                "tags": [],
                 "description": "",
                 "requestBody": {
                     "required": true,
@@ -84,10 +169,12 @@
                                         }
                                     },
                                     "checkin": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "date-time"
                                     },
                                     "checkout":{
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "date-time"
                                     }
                                 }
                             }
@@ -96,26 +183,94 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "hotelId": {
+                                            "type": "string",
+                                            "description": "Hotel ID."
+                                        },
+                                        "guests": {
+                                            "type": "array",
+                                            "description": "Array of guests.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Guest's name."
+                                                    },
+                                                    "document": {
+                                                        "type": "string",
+                                                        "description": "Guest's document."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "checkin": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Check-in date."
+                                        },
+                                        "checkout": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Check-out date."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error message.",
+                                            "example": "Invalid keys: hotelId, guests"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal Server Error"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error message.",
+                                            "example": "Error creating booking: Error here."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/hotels": {
             "get": {
-                "tags": [],
                 "description": "Search nearby hotels given latitude, longitude and circle radius.",
                 "parameters": [
                     {
                         "name": "latlng",
                         "in": "query",
                         "required": true,
+                        "example": "42.36309,-71.05495",
                         "description": "Latitude-longitude info",
                         "schema": {
                             "type": "string"
@@ -125,21 +280,134 @@
                         "name": "r",
                         "in": "query",
                         "required": true,
+                        "example": 100,
                         "description": "Search circle radius",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                            "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "address": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "label": {
+                                                        "type": "string"
+                                                    },
+                                                    "countryCode": {
+                                                        "type": "string"
+                                                    },
+                                                    "countryName": {
+                                                        "type": "string"
+                                                    },
+                                                    "stateCode": {
+                                                        "type": "string"
+                                                    },
+                                                    "state": {
+                                                        "type": "string"
+                                                    },
+                                                    "county": {
+                                                        "type": "string"
+                                                    },
+                                                    "city": {
+                                                        "type": "string"
+                                                    },
+                                                    "district": {
+                                                        "type": "string"
+                                                    },
+                                                    "street": {
+                                                        "type": "string"
+                                                    },
+                                                    "postalCode": {
+                                                        "type": "string"
+                                                    },
+                                                    "houseNumber": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "distance": {
+                                                "type": "integer"
+                                            },
+                                            "position": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "lat": {
+                                                        "type": "number"
+                                                    },
+                                                    "lng": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            },
+                                            "access": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "lat": {
+                                                            "type": "number"
+                                                        },
+                                                        "lng": {
+                                                            "type": "number"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error message.",
+                                            "example": "Invalid keys: checkin, hotelId"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal Server Error"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error message.",
+                                            "example": "Error listing bookings: Error here."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
