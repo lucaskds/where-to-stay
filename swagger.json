@@ -115,7 +115,7 @@
                                         "message": {
                                             "type": "string",
                                             "description": "Error message.",
-                                            "example": "Invalid params: checkin, hotelId"
+                                            "example": "Invalid params: page, size"
                                         }
                                     }
                                 }
@@ -385,7 +385,7 @@
                                         "message": {
                                             "type": "string",
                                             "description": "Error message.",
-                                            "example": "Invalid keys: checkin, hotelId"
+                                            "example": "Invalid keys: latlng, r"
                                         }
                                     }
                                 }
