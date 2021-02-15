@@ -11,7 +11,7 @@
             "description": "Local development endpoint"
         },
         {
-            "url": "123qwe.heroku",
+            "url": "https://nameless-basin-99224.herokuapp.com",
             "description": "External endpoint"
         }
     ],
