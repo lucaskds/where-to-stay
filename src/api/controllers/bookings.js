@@ -13,6 +13,8 @@ const {
 
 // eslint-disable-next-line consistent-return
 exports.validate = (method) => {
+    const isDate = (date) => Date.parse(date);
+
     switch (method) {
     case 'list':
         return [
@@ -32,8 +34,8 @@ exports.validate = (method) => {
         return [
             body('hotelId', 'hotelId is missing').exists(),
             body('guests', 'guest array is missing').custom((value) => value && value.length),
-            body('checkin', 'checkin is missing').exists(),
-            body('checkout', 'checkout is missing').exists(),
+            body('checkin', 'checkin is missing').custom((value) => isDate(value)),
+            body('checkout', 'checkout is missing').custom((value) => isDate(value)),
         ];
     }
 };
@@ -82,7 +84,7 @@ exports.create = async (req, res) => {
             });
         }
         return res.status(500).json({
-            message: `Error listing bookings: ${ex.message}`,
+            message: `Error creating booking: ${ex.message}`,
         });
     }
 };
