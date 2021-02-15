@@ -2,12 +2,12 @@
 const { query, validationResult } = require('express-validator');
 const hereClient = require('../../services/hereClient');
 
+// eslint-disable-next-line consistent-return
 exports.validate = (method) => {
     switch (method) {
     case 'nearby':
         return [
-            query('lat', 'lat is missing').isNumeric(),
-            query('lng', 'lng is missing').isNumeric(),
+            query('latlng', 'latlng is missing').isLatLong(),
             query('r', 'r is missing').isNumeric().customSanitizer((value) => {
                 if (value > 5000) return 5000;
                 if (value < 100) return 100;
@@ -25,8 +25,8 @@ exports.nearby = async (req, res) => {
             throw new Error(`Invalid params: ${invalidParams.join(', ')}`);
         }
 
-        const { lat, lng, r } = req.query;
-        const hotels = await hereClient.nearbyHotels({ lat, lng, r });
+        const { latlng, r } = req.query;
+        const hotels = await hereClient.nearbyHotels({ latlng, r });
 
         return res.status(200).json(hotels);
     } catch (ex) {

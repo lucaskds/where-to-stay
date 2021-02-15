@@ -113,19 +113,10 @@
                 "description": "Search nearby hotels given latitude, longitude and circle radius.",
                 "parameters": [
                     {
-                        "name": "lat",
+                        "name": "latlng",
                         "in": "query",
                         "required": true,
-                        "description": "Latitude info",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "lng",
-                        "in": "query",
-                        "required": true,
-                        "description": "Longitude info",
+                        "description": "Latitude-longitude info",
                         "schema": {
                             "type": "string"
                         }
