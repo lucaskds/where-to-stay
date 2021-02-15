@@ -2,4 +2,4 @@
 
 Search and book hotels nearby
 
-Endpoints details: Swagger @ /api-docs
+Endpoints details: [/api-docs](https://where-to-stay.herokuapp.com/api-docs)
