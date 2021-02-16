@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = require('./app');
 
 const PORT = process.env.PORT || 3000;
-const MONGO_URL = process.env.DATABASE_CONNECTION_STRING || 'mongodb://localhost:27017';
+const MONGO_URL = process.env.DATABASE_CONNECTION_STRING || 'mongodb://db:27017/crud-node-mongo-docker';
 
 mongoose
     .connect(MONGO_URL, {

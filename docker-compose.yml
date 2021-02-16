@@ -7,6 +7,7 @@ services:
             - "3000:3000"
         environment:
             - HERE_API_KEY=${HERE_API_KEY}
+            - DATABASE_CONNECTION_STRING=${DATABASE_CONNECTION_STRING}
             - PORT=3000
             - DEFAULT_SIZE_VALUE=20
             - MAX_SIZE_VALUE=50
