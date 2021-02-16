@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable default-case */
 const { query, body, validationResult } = require('express-validator');
-const bookingsRepository = require('../repositories/bookings');
+const BookingRepository = require('../repositories/bookings');
+const Bookings = require('../models/booking');
 
 const {
     DEFAULT_SIZE_VALUE,
@@ -43,6 +44,7 @@ exports.validate = (method) => {
 exports.list = async (req, res) => {
     try {
         const { page, size } = req.query;
+        const bookingsRepository = new BookingRepository(Bookings);
         const bookings = await bookingsRepository.list({ page, size });
 
         return res.status(200).json({
@@ -65,6 +67,7 @@ exports.create = async (req, res) => {
             const invalidKeys = errors.map((e) => e.param);
             throw new Error(`Invalid keys: ${invalidKeys.join(', ')}`);
         }
+        const bookingsRepository = new BookingRepository(Bookings);
         const newBooking = await bookingsRepository.create(req.body);
         return res.status(201).json(newBooking);
     } catch (ex) {
