@@ -42,11 +42,6 @@ exports.validate = (method) => {
 
 exports.list = async (req, res) => {
     try {
-        const { errors } = validationResult(req);
-        if (errors && errors.length) {
-            const invalidParams = errors.map((e) => e.param);
-            throw new Error(`Invalid params: ${invalidParams.join(', ')}`);
-        }
         const { page, size } = req.query;
         const bookings = await bookingsRepository.list({ page, size });
 
@@ -57,11 +52,6 @@ exports.list = async (req, res) => {
             data: bookings.list,
         });
     } catch (ex) {
-        if (ex.message.includes('Invalid params')) {
-            return res.status(400).json({
-                message: ex.message,
-            });
-        }
         return res.status(500).json({
             message: `Error listing bookings: ${ex.message}`,
         });
