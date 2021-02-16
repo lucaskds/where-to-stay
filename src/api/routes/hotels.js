@@ -1,7 +1,8 @@
+const { Router } = require('express');
 const HotelsController = require('../controllers/hotels');
 
-module.exports = (router) => {
-    router
-        .get('/', HotelsController.validate('nearby'), HotelsController.nearby);
-    return router;
-};
+const router = Router();
+
+router.get('/', HotelsController.validate('nearby'), HotelsController.nearby);
+
+module.exports = router;
