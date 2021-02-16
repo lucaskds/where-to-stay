@@ -8,7 +8,7 @@ services:
         environment:
             - HERE_API_KEY=${HERE_API_KEY}
             - PORT=3000
-            - DEFAULT_RESULTS_PER_PAGE=20
+            - DEFAULT_SIZE_VALUE=20
             - MAX_SIZE_VALUE=50
             - MIN_SIZE_VALUE=10
             - DEFAULT_PAGE=1

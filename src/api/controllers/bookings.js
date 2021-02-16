@@ -4,7 +4,7 @@ const { query, body, validationResult } = require('express-validator');
 const bookingsRepository = require('../repositories/bookings');
 
 const {
-    DEFAULT_RESULTS_PER_PAGE,
+    DEFAULT_SIZE_VALUE,
     MAX_SIZE_VALUE,
     MIN_SIZE_VALUE,
     DEFAULT_PAGE,
@@ -19,7 +19,7 @@ exports.validate = (method) => {
     case 'list':
         return [
             query('size', 'size is missing').toInt().customSanitizer((value) => {
-                if (isNaN(value)) return parseInt(DEFAULT_RESULTS_PER_PAGE, 10);
+                if (isNaN(value)) return parseInt(DEFAULT_SIZE_VALUE, 10);
                 if (value > 50) return parseInt(MAX_SIZE_VALUE, 10);
                 if (value < 10) return parseInt(MIN_SIZE_VALUE, 10);
                 return parseInt(value, 10);
