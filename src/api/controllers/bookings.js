@@ -19,6 +19,7 @@ exports.validate = (method) => {
     switch (method) {
     case 'list':
         return [
+            query('hotelId', 'hotelId is missing').isString(),
             query('size', 'size is missing').toInt().customSanitizer((value) => {
                 if (isNaN(value)) return parseInt(DEFAULT_SIZE_VALUE, 10);
                 if (value > 50) return parseInt(MAX_SIZE_VALUE, 10);
@@ -43,9 +44,14 @@ exports.validate = (method) => {
 
 exports.list = async (req, res) => {
     try {
-        const { page, size } = req.query;
+        const { errors } = validationResult(req);
+        if (errors && errors.length) {
+            const invalidKeys = errors.map((e) => e.param);
+            throw new Error(`Invalid params: ${invalidKeys.join(', ')}`);
+        }
+        const { hotelId, page, size } = req.query;
         const bookingsRepository = new BookingRepository(Bookings);
-        const bookings = await bookingsRepository.list({ page, size });
+        const bookings = await bookingsRepository.list({ hotelId, page, size });
 
         return res.status(200).json({
             total: bookings.total,
@@ -54,6 +60,11 @@ exports.list = async (req, res) => {
             data: bookings.list,
         });
     } catch (ex) {
+        if (ex.message.includes('Invalid params')) {
+            return res.status(400).json({
+                message: ex.message,
+            });
+        }
         return res.status(500).json({
             message: `Error listing bookings: ${ex.message}`,
         });

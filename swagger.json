@@ -25,6 +25,16 @@
                 "description": "",
                 "parameters": [
                     {
+                        "name": "hotelId",
+                        "required": true,
+                        "in": "query",
+                        "example": "here:pds:place:840drt2z-da7d929da56241ab90a63e9b04581a3e",
+                        "description": "Hotel Id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "example": 1,

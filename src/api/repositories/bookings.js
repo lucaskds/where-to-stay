@@ -3,10 +3,10 @@ class BookingRepository {
         this.model = model;
     }
 
-    async list({ page = 1, size = 20 }) {
+    async list({ hotelId, page = 1, size = 20 }) {
         const skip = (page - 1) * size;
-        const bookingsCount = await this.model.countDocuments();
-        const bookings = await this.model.find({}, 'hotelId guests checkin checkout', { skip, limit: size });
+        const bookingsCount = await this.model.countDocuments({ hotelId });
+        const bookings = await this.model.find({ hotelId }, 'hotelId guests checkin checkout', { skip, limit: size });
         const sanitizedBookings = bookings.map((booking) => ({
             hotelId: booking.hotelId,
             guests: booking.guests.map((guest) => ({
